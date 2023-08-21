@@ -5,29 +5,35 @@ from datetime import date, timedelta
 import mplcursors
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-# Create a dictionary for the year 2023 with random values between 0 and 3
-start_date = date(2023, 1, 1)
-# Adjust the start date to the first Monday of the year
-while start_date.weekday() != 0:
-    start_date += timedelta(days=1)
-
-end_date = date(2024, 1, 1)
-delta = timedelta(days=1)
-
 data_dict = {}
+year = 2021
+start_date = date(year, 1, 1)
+end_date = date(year + 1, 1, 1)
+delta = timedelta(days=1)
+SUNDAY = 6
+
+# create nans for days in the previous year between the first day of the year and the first Sunday
+prev_year = start_date
+while prev_year.weekday() != SUNDAY:
+    prev_year -= delta
+    data_dict[prev_year.strftime('%y%m%d')] = np.nan
+    
+# fill data for the year
 while start_date < end_date:
     data_dict[start_date.strftime('%y%m%d')] = random.randint(0, 3)
     start_date += delta
+
+# create nans for days in the next year between the last day of the year and the last Sunday
+next_year = end_date
+while next_year.weekday() != SUNDAY:
+    data_dict[next_year.strftime('%y%m%d')] = np.nan
+    next_year += delta
 
 # Convert the dictionary to a 2D list
 data = [list(data_dict.values())[i:i+7] for i in range(0, len(data_dict), 7)]
 
 # Transpose the data to switch the axes
 data = np.array(list(map(list, zip(*data))), dtype=float)
-
-
-# TODO: remove later, testing making an element invisible
-data[0, 0] = np.nan
 
 # Get the shape of the data
 num_rows, num_cols = data.shape
