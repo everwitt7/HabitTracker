@@ -59,4 +59,17 @@ cursor.connect("add", lambda sel: sel.annotation.set_text('Value: {}'.format(dat
 ax.set_yticks(np.arange(data.shape[0]))
 ax.set_yticklabels(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])
 
+# Add title to the graph
+ax.set_title('Habit Tracker 2023')
+
+# Add month labels to the x-axis
+month_positions = np.arange(0, 48, 4)  # Adjust the step size as needed
+month_labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+ax.set_xticks(month_positions)
+ax.set_xticklabels(month_labels, rotation=45, ha='right')
+
+# Keep the number of weeks on the bottom of the graph
+ax.set_xticks(np.arange(data.shape[1]))
+
 plt.show()
