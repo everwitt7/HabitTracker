@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 from datetime import date, timedelta
+import mplcursors
 
 # Create a dictionary for the year 2023 with random values between 0 and 3
 start_date = date(2023, 1, 1)
@@ -24,9 +25,14 @@ data = [list(data_dict.values())[i:i+7] for i in range(0, len(data_dict), 7)]
 data = list(map(list, zip(*data)))
 
 # Create the heatmap
-plt.figure(figsize=(10, 10))
-plt.imshow(data, cmap='Blues', aspect='auto')
+fig, ax = plt.subplots(figsize=(10, 10))
+cax = ax.imshow(data, cmap='Blues', aspect='auto')
 plt.axis('off')  # Hide the axes
+
+# Add hover functionality
+cursor = mplcursors.cursor(cax, hover=True)
+cursor.connect("add", lambda sel: sel.annotation.set_text('Value: {}'.format(data[sel.target.index])))
+
 plt.show()
 
 
