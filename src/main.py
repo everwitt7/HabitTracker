@@ -1,4 +1,5 @@
-import plotly.graph_objects as go
+import matplotlib.pyplot as plt
+import numpy as np
 import random
 from datetime import date, timedelta
 
@@ -23,12 +24,10 @@ data = [list(data_dict.values())[i:i+7] for i in range(0, len(data_dict), 7)]
 data = list(map(list, zip(*data)))
 
 # Create the heatmap
-fig = go.Figure(data=go.Heatmap(
-                   z=data,
-                   y=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-                   x=[str(i) for i in range(52)],
-                   hoverongaps = False))
-fig.show()
+plt.figure(figsize=(10, 10))
+plt.imshow(data, cmap='Blues', aspect='auto')
+plt.axis('off')  # Hide the axes
+plt.show()
 
 
 # Notes:
